@@ -4,10 +4,11 @@ from langchain_groq import ChatGroq
 from dotenv import load_dotenv
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import StrOutputParser
+import os
 
 load_dotenv()
 
-id_model = "llama3-70b-8192"
+id_model = os.getenv("MODEL_ID")
 
 llm = ChatGroq(
     model = id_model,
@@ -49,7 +50,7 @@ tom = st.multiselect('Tom:', options=['Respeitoso', 'Informal', 'Engraçado', 'S
 mensagem = st.text_area("Mensagem:", height=200, placeholder="Ex: Vamos nos encontrar para o churrasco no sábado?")
 emoji = st.checkbox('Incluir emojis')
 
-if st.button('Gera Mensagem'):
+if st.button('Gerar Mensagem'):
 
     if mensagem:
         prompt = f"""
