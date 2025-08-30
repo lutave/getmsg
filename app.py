@@ -10,16 +10,21 @@ load_dotenv()
 
 id_model = os.getenv("MODEL_ID")
 
-llm = ChatGroq(
-    model = id_model,
-    temperature=0.7,
-    max_tokens = None,
-    timeout = None,
-    max_retries = 2
-)
+def create_llm(temperature):
 
-def llm_generate(prompt, llm=llm):
+    llm = ChatGroq(
+        model = id_model,
+        temperature=temperature,
+        max_tokens = None,
+        timeout = None,
+        max_retries = 2
+    )
 
+    return llm
+
+def llm_generate(prompt, temperature):
+
+    llm = create_llm(temperature)
 
     template = ChatPromptTemplate.from_messages([
             ("system", "Você é um assistente de redação de mensagens para contatos e grupos nas redes sociais."),
@@ -49,6 +54,8 @@ publico = st.selectbox('Público-alvo:', options=['Geral', 'Familiares', 'Amigos
 tom = st.multiselect('Tom:', options=['Respeitoso', 'Informal', 'Engraçado', 'Sarcástico', 'Reflexivo', 'Persuasivo', 'Motivacional'], placeholder="Escolha uma opção")
 mensagem = st.text_area("Mensagem:", height=200, placeholder="Ex: Vamos nos encontrar para o churrasco no sábado?")
 emoji = st.checkbox('Incluir emojis')
+ajustar_temperatura = st.checkbox('Definir temperatura')
+temperatura = st.slider('Temperatura:', min_value=0.0, max_value=1.0, step=0.1) if ajustar_temperatura else 0.7
 
 if st.button('Gerar Mensagem'):
 
@@ -71,7 +78,7 @@ if st.button('Gerar Mensagem'):
         - Retorne somente a versão reescrita da mensagem, sem aspas duplas e sem explicações extras.
         - {"Adicione emojis de acordo com o contexto da mensagem. " if emoji else "Não inclua emojis na resposta."}
         """
-        res = llm_generate(prompt)
+        res = llm_generate(prompt, temperatura)
         st.write(res)
         st_copy_to_clipboard(res, before_copy_label="Copiar", after_copy_label="Copiado!")
     else:
