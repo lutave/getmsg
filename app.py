@@ -54,8 +54,6 @@ publico = st.selectbox('Público-alvo:', options=['Geral', 'Familiares', 'Amigos
 tom = st.multiselect('Tom:', options=['Respeitoso', 'Informal', 'Engraçado', 'Sarcástico', 'Reflexivo', 'Persuasivo', 'Motivacional'], placeholder="Escolha uma opção")
 mensagem = st.text_area("Mensagem:", height=200, placeholder="Ex: Vamos nos encontrar para o churrasco no sábado?")
 emoji = st.checkbox('Incluir emojis')
-ajustar_temperatura = st.checkbox('Definir temperatura', disabled=True)
-temperatura = st.slider('Temperatura:', min_value=0.0, max_value=1.0, step=0.1) if ajustar_temperatura else 0.7
 
 if st.button('Gerar Mensagem'):
 
@@ -79,7 +77,7 @@ if st.button('Gerar Mensagem'):
         - {"Adicione emojis de acordo com o contexto da mensagem. " if emoji else "Não inclua emojis na resposta."}
         """
         try:
-            res = llm_generate(prompt, temperatura)
+            res = llm_generate(prompt, 0.7)
             st.write(res)
             st_copy_to_clipboard(res, before_copy_label="Copiar", after_copy_label="Copiado!")
         except Exception as e:
