@@ -78,8 +78,11 @@ if st.button('Gerar Mensagem'):
         - Retorne somente a versão reescrita da mensagem, sem aspas duplas e sem explicações extras.
         - {"Adicione emojis de acordo com o contexto da mensagem. " if emoji else "Não inclua emojis na resposta."}
         """
-        res = llm_generate(prompt, temperatura)
-        st.write(res)
-        st_copy_to_clipboard(res, before_copy_label="Copiar", after_copy_label="Copiado!")
+        try:
+            res = llm_generate(prompt, temperatura)
+            st.write(res)
+            st_copy_to_clipboard(res, before_copy_label="Copiar", after_copy_label="Copiado!")
+        except Exception as e:
+            st.error(f"Ocorreu um erro.")
     else:
         st.warning("Por favor, insira uma mensagem.")
