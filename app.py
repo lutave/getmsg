@@ -8,7 +8,7 @@ import os
 
 load_dotenv()
 
-id_model = os.getenv("MODEL_ID")
+id_model = 'llama-3.3-70b-versatile'
 
 def create_llm(temperature):
 
@@ -81,6 +81,7 @@ if st.button('Gerar Mensagem'):
             st.write(res)
             st_copy_to_clipboard(res, before_copy_label="Copiar", after_copy_label="Copiado!")
         except Exception as e:
-            st.error(f"Ocorreu um erro.")
+            st.error(e)
+          #  st.error(f"Ocorreu um erro.")
     else:
         st.warning("Por favor, insira uma mensagem.")
