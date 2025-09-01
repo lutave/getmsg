@@ -8,10 +8,9 @@ import os
 
 load_dotenv()
 
-id_model = 'llama-3.3-70b-versatile'
+id_model = "llama-3.3-70b-versatile"
 
 def create_llm(temperature):
-
     llm = ChatGroq(
         model = id_model,
         temperature=temperature,
@@ -19,23 +18,17 @@ def create_llm(temperature):
         timeout = None,
         max_retries = 2
     )
-
     return llm
 
 def llm_generate(prompt, temperature):
-
     llm = create_llm(temperature)
-
     template = ChatPromptTemplate.from_messages([
             ("system", "Você é um assistente de redação de mensagens para contatos e grupos nas redes sociais."),
             ("human", "{prompt}")
         ]
     )
-
     chain = template | llm | StrOutputParser()
-
     res = chain.invoke({"prompt": prompt})
-
     return res
 
 title = "Reescritor.AI"
@@ -48,14 +41,14 @@ st.set_page_config(
 st.title(f"✍🏽 {title}")
 
 st.markdown("Transforme suas mensagens em um contexto personalizado, perfeito para criar textos para grupos de amigos, familiares, estudos, política, notícias e muito mais, de forma espontânea, natural e adequada ao contexto.")
-Contexto = st.selectbox("Contexto:", options=['Amigos', 'Família', 'Política', 'Noticias', "Acadêmico"], placeholder="Escolha uma opção")
-comprimento = st.selectbox('Tamanho:', options=['Curta', 'Média', 'Longa'])
-publico = st.selectbox('Público-alvo:', options=['Geral', 'Familiares', 'Amigos', 'Cidadãos', 'Eleitores', 'Profissional' , 'Desconhecidos'], placeholder="Escolha uma opção")
-tom = st.multiselect('Tom:', options=['Respeitoso', 'Informal', 'Engraçado', 'Sarcástico', 'Reflexivo', 'Persuasivo', 'Motivacional'], placeholder="Escolha uma opção")
+Contexto = st.selectbox("Contexto:", options=["Amigos", "Família", "Política", "Noticias", "Acadêmico"], placeholder="Escolha uma opção")
+comprimento = st.selectbox("Tamanho:", options=["Curta", "Média", "Longa"])
+publico = st.selectbox("Público-alvo:", options=["Geral", "Familiares", "Amigos", "Cidadãos", "Eleitores", "Profissional" , "Desconhecidos"], placeholder="Escolha uma opção")
+tom = st.multiselect("Tom:", options=["Respeitoso", "Informal", "Engraçado", "Sarcástico", "Reflexivo", "Persuasivo", "Motivacional"], placeholder="Escolha uma opção")
 mensagem = st.text_area("Mensagem:", height=200, placeholder="Ex: Vamos nos encontrar para o churrasco no sábado?")
-emoji = st.checkbox('Incluir emojis')
+emoji = st.checkbox("Incluir emojis")
 
-if st.button('Gerar Mensagem'):
+if st.button("Gerar Mensagem"):
 
     if mensagem:
         prompt = f"""
@@ -81,7 +74,6 @@ if st.button('Gerar Mensagem'):
             st.write(res)
             st_copy_to_clipboard(res, before_copy_label="Copiar", after_copy_label="Copiado!")
         except Exception as e:
-            st.error(e)
-          #  st.error(f"Ocorreu um erro.")
+            st.error("Ocorreu um erro.")
     else:
         st.warning("Por favor, insira uma mensagem.")
