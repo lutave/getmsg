@@ -46,6 +46,7 @@ comprimento = st.selectbox("Tamanho:", options=["Curta", "Média", "Longa"])
 publico = st.selectbox("Público-alvo:", options=["Geral", "Familiares", "Amigos", "Cidadãos", "Eleitores", "Profissional" , "Desconhecidos"], placeholder="Escolha uma opção")
 tom = st.multiselect("Tom:", options=["Respeitoso", "Informal", "Engraçado", "Sarcástico", "Reflexivo", "Persuasivo", "Motivacional"], placeholder="Escolha uma opção")
 mensagem = st.text_area("Mensagem:", height=200, placeholder="Ex: Vamos nos encontrar para o churrasco no sábado?")
+detalhes = st.text_area('Detalhes adicionais (opcional):', height=100, placeholder="Ex: Público jovem, tom informal e engraçado.")
 emoji = st.checkbox("Incluir emojis")
 
 if st.button("Gerar Mensagem"):
@@ -62,6 +63,7 @@ if st.button("Gerar Mensagem"):
         - Tamanho da mensagem: {comprimento}
         {"- Tom: " + ', '.join(tom) if tom else ""}
         - Público-alvo: {publico}
+        Siga quaisquer detalhes adicionais fornecidos: {detalhes if detalhes else "Nenhum detalhe adicional fornecido."}
 
         Importante:
         - Respeite o tom original da mensagem, ajustando apenas quando necessário.
